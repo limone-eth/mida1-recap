@@ -1,0 +1,391 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{inputenc}
+\usepackage[a4paper, total={150mm,250mm}]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[dvipsnames, table]{xcolor}
+\usepackage{subcaption}
+\usepackage{fancybox, graphicx}
+\usepackage{tikz}
+\usepackage{ulem}
+\usetikzlibrary{shadows}
+\usepackage{listings}
+\usepackage{lmodern,textcomp}
+%\usepackage[english]{babel}
+
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+	linkcolor=black,
+    linktoc=all,     %set to all if you want both sections and subsections linked 
+    urlcolor=blue
+}
+\title{{\Huge\textbf{MIDA1: Recap}
+\\ \LARGE Model Identification and Data Analysis I
+\\ \large \textbf{Professor}: Sergio Bittanti  \linebreak
+\\ \small \textbf{Authors}: Simone Staffa \linebreak
+\\ \small Based on the notes provided by Giulio Alizoni
+
+
+\vspace{5em}
+\begin{figure}[h!]
+ \hfill \includegraphics[width=300pt]{images/polimi.png}\hspace*{\fill}
+  \label{fig:polimi}
+\end{figure}
+}}
+\begin{document}
+\maketitle
+\clearpage
+\tableofcontents
+\clearpage
+\section{Random Variables Refresh}
+A random variable $v$ can be described by three main properties:
+\begin{itemize}
+	\item \textbf{Mean}: $E[v]$. Key property of expected value $E[\alpha_1v_1+\alpha_2v_2] = \alpha_1E[v_1] + \alpha_2E[v_2] $
+	\item \textbf{Variance}: $E[(v-E[v])^2] \geq 0$
+	\item \textbf{Standard Deviation}: $\sqrt{Var[v]}$
+\end{itemize}
+\textbf{Random Vector}: a vector composed of random variables.
+\\ \\
+The \textbf{Cross Variance} between two elements of it can be defined as:
+\center 
+$\lambda_{12} = E[(v_1-E[v_1])(v_2-E[v_2])]$ with $V = | v_1 v_2 |^T$
+\\
+\vspace{1em}
+\raggedright
+We can define the \textbf{Variance Matrix} as $Var[V]=	\begin{bmatrix}
+\lambda_{1,1} & \lambda_{1,2} \\
+\lambda_{2,1} & \lambda_{2,2}
+\end{bmatrix}$.
+This matrix has some properties:
+\begin{itemize}
+	\item Symmetric
+	\item Positive Semi-Definite: $det(Var[v]) \geq 0$
+\end{itemize}
+Defining the \textbf{covariance coefficient} $\rho=\frac{\lambda_{12}}{\sqrt{\lambda_{11}}*\sqrt{\lambda_{22}}}$, we obtain that $|\rho| \leq 1 $
+\section{Random Process Introduction}
+A random process (also called \textbf{stochastic process}) is a sequence of random variables. We will focus on \textbf{Stationary Stochastic Process (SSP)} which have the following characteristics:
+\begin{itemize}
+	\item \textbf{Mean} is constant ($m$)
+	\item \textbf{Variance} is constant ($\lambda^2$)
+	\item $\gamma(t_1,t_2) = E[(v(t_1)-m)(v(t_2)-m)]$ the \textbf{covariance function}, it depends only on $\tau = t_2 - t_1$ and can therefore be indicated with $\gamma(\tau)$. The variance can be also defined as $\gamma(0) = \lambda^2$
+\end{itemize}
+A \textbf{White Noise (WN)} is a SSP with $\gamma(0) = 0$ $\forall \tau \neq 0$. A WN is an unpredictable signal meaning that there is NO CORRELATION between $\eta(t_1)$ and $\eta(t_2)$. Usually a WN is defined as $\eta(t) \sim WN(0,\lambda^2)$. Having them with zero-mean is not mandatory.
+\section{Familes of SSP}
+\subsection{Moving Average Process (MA)}
+\center 
+$MA(n) : v(t) = c_0 \eta(t) + c_1 \eta(t-1) + ... + c_n \eta(t-n)$
+\\
+\vspace{1em}
+\raggedright
+Where $n$ is the order of the process, $\eta(t) \sim WN(0,\lambda^2)$. \\
+\begin{itemize}
+	\item By definition, \textbf{MA processes are stationary} because they are the result of the sum of stationary processes (white-noise)
+	\item \textbf{Mean} is $E[v(t)]=(c_0 + c_1 + ... + c_n)E[\eta(t)]=0$
+	\item \textbf{Covariance function}:
+	\begin{equation}
+  		\gamma(\tau) =
+    		\begin{cases}
+      			\lambda^2 * \sum_{i=0}^{n - \tau} c_ic_{i-\tau} & |\tau| \leq n\\
+      			0 & otherwise\\
+    \end{cases}  
+    \end{equation} 
+
+	\item \textbf{Transfer function}: $W(z)=c_0+c_1z^{-1}+...+c_nz^{-n}=\frac{c_0z^n+c_1z^{n-1}+...+c_n}{z^n}$. \\
+	All poles are then in the origin of the complex plane, while the zeroes depends on the values of the coefficient. 
+\end{itemize}
+\pagebreak
+It exists also the $MA(\infty)$ representation:
+\center $v(t) = c_0\eta(t)+c_1\eta(t-1)+...+c_i\eta(t-i)+... + infinite sum$. 
+\\ \raggedright \vspace{0.5em}
+In this way the variance in particular becomes an infinite sum as well:
+\center $\gamma(0) = (c_0^2+c_1^2+... +c_i^2 + ...) \lambda^2$. 
+\\ \raggedright \vspace{0.5em}
+We have then to impose the \uline{basic condition}: $\sum_{i=0}^{\infty} c_i^2$ needs to be FINITE, because we need to have $|\gamma(\tau)| \leq \gamma(0)$. Under this condition, $MA(\infty)$ is well defined and a stationary process.
+\subsection{Auto Regressive Process (AR)}
+\center 
+$AR(n) : v(t) = a_1v(t-1)+a_2v(t-2)+...+a_nv(t-n) + \eta(t)$
+\\
+\vspace{0.5em}
+\raggedright
+Where $n$ is the order of the process, $\eta(t) \sim WN(0,\lambda^2)$. \\
+\begin{itemize}
+	\item \textbf{Mean} is computed applying $E[v(t)]$.
+	\item \textbf{Covariance function} with $n=1$ (case of $AR(1)$):
+	\begin{equation}
+  		\gamma(\tau) =
+    		\begin{cases}
+      			a\gamma(\tau-1) & |\tau| \geq 0\\
+      			\frac{1}{1-a^2} \lambda^2 & \tau=0\\
+    \end{cases}       
+\end{equation}
+	well defined if $|a|<1$ (Yule Walker Equations)
+	\item \textbf{Transfer function}: $W(z)=\frac{z^n}{z^n-a_1z^{n-1}-...-a_n}$. \\
+	\vspace{0.5em}
+	Note that poles' position depends on the value $a_1, ..., a_n$. If all poles are inside the unit circle, then the system is \textbf{stable}.
+\end{itemize}
+\subsection{ARMA Process}
+\center 
+$ARMA(n_a,n_c) : v(t) = a_1v(t-1)+...+a_{n_a}v(t-n_a) + c_0\eta(t) + ... + c_1\eta(t-1) + ... + c_{n_c}\eta{t-n_c}$
+\\
+\vspace{1em}
+\raggedright
+It is composed by an AR and an MA part. The process is stationary if STABLE, meaning that all the poles needs to be inside the unit circle. \\
+An ARMA process can be expressed as $v(t)=\frac{C(z)}{A(z)}\eta(t)$ having:
+\center
+ $C(z)=c_0+c_1z^{-1}+...+c_{n_c}z^{-n_c}$\\ $A(z)=1-a_1z^{-1}-...-a_{n_a}z^{-n_a}$
+ \\
+$\rightarrow$ $W(z) = \frac{C(z)}{A(z)}$
+\\ \raggedright \vspace{0.5em}
+Using the \uline{Long Division Algorithm} one can obtain the \textbf{impulse response} representation of it, which is a sort of $MA(\infty)$ expression of the process, where $W(z)=w_0+w_1z^{-1}+w_2z^{-2}+...$ as the result of the long division between $C(z)$ and $A(z)$.
+\pagebreak
+\section{Spectral Representation}
+By the original definition, the spectrum of a stationary process is the \textit{fourier transform} of its covariance function:
+\center
+ $\Gamma(\omega)=\digamma[\gamma(\tau)]=\sum_{\tau=-\infty}^{\infty} \gamma(\tau)e^{-j \omega \tau}$
+ \\
+ \vspace{0.5em}
+ \raggedright
+ When computing the spectrum, remember the Eulero formula:
+ $\frac{e^{j \omega \tau}+e^{-j \omega \tau}}{2} = cos(\omega \tau)$
+ \\
+ Spectrum properties:
+ \begin{itemize}
+ 	\item $\Gamma(\omega)$ is a \textbf{real function} of the real variable $\omega$
+ 	\item $\Gamma(\omega)$ is \textbf{periodic} with $T=2 \pi$
+ 	\item $\Gamma(\omega) =\Gamma(-\omega)$ (\textbf{even function}) since both $\gamma(\bullet)$ and $cos(\bullet)$ are even functions
+ 	\item $\Gamma(\omega) \geq 0$  $\forall \omega$
+ \end{itemize}
+ Remember that if the spectrum is higher with low frequencies, means that the signal moves very slowly. Vice versa, if the spectrum is higher with high frequencies the signal moves very quickly. 
+ \begin{figure}[h!]
+ \hfill \includegraphics[width=300pt]{images/spectrum.png}\hspace*{\fill}
+  \label{fig:spectrum}
+\end{figure}
+ There exist also the \uline{complex spectrum}:
+ \center
+ $\Phi (z)=\sum_{\tau=-\infty}^{\infty} \gamma (\tau)z^{-\tau} \rightarrow \Gamma(\omega)=\Phi(z=e^{j \omega})$
+ \\
+ \raggedright
+ \vspace{0.5em}
+ One can also anti-transform the spectrum to obtain the covariance function:
+  \center
+ $\gamma(\tau)=\int_{-\pi}^{+\pi} \Gamma(\omega)e^{j \omega \tau} d\omega$
+ \\
+ \vspace{0.5em}
+ \raggedright
+  The spectrum of a white noise is constant and equal to its variance.
+ Given  $\eta(t) \sim WN(0,\lambda^2)$
+ \center 
+$\Gamma_\eta(\omega) = \gamma(0) = Var[\eta(t)] = \lambda^2$
+\\
+\raggedright
+\subsection{Fundamental Theorem of Spectral Analysis}
+The spectrum of a process $y$ that takes in input a process $u$ is:
+\center 
+$\Gamma_y(\omega)=|W(e^{j \omega)}|^2*\Gamma_u(\omega)$
+\\
+ \begin{figure}[h!]
+ \hfill \includegraphics[width=200pt]{images/spectrum-theorem.png}\hspace*{\fill}
+  \label{fig:spectrum-theorem}
+\end{figure}
+\raggedright
+\section{Canonical Representation of a Stationary Process}
+To solve the multiplicity of ARMA models for a stationary process, in which there are many different ARMA representations for the same process, one can use the canonical representation. \\
+From a signal, one can build the spectrum (or equivalently the covariance function). Once we have the spectrum, we can derive the canonical spectral factor to solve the prediction problem. Indeed, given a rational process, there is one and only one ARMA representation which is canonical. \\
+\pagebreak
+\textbf{Properties of Canonical Representation} (referring to the transfer function $W(z)$):
+\begin{itemize}
+	\item Numerator and denominator have the same degree
+	\item Numerator and denominator are monic (the term with the highest power has coefficient equal to 1)
+	\item Numerator and denominator are coprime (no common factors to that can be simplified)
+	\item Numerator and denominator are stable polynomials: all poles and zeroes of $W(z)$ are inside the unit disk
+\end{itemize}
+\section{Prediction Problem}
+\subsection{Fake Problem}
+In the fake problem we want to find the predictor from the noise. \\
+We want to compute $\hat{v}(t+r)$ given the past of $\eta$. We can write: \center 
+$v(t+r)=\hat{W(z)}\eta(t+r)=\textcolor{red}{\hat{w}_0\eta(t+r)+\hat{w}_1\eta(t+r-1)+...+\hat{w}_{r-1}\eta(t+1)}+\textcolor{blue}{\hat{w}_r\eta(t)+\hat{w}_{r+1}\eta(t-1)+...}=\textcolor{red}{\alpha(t)}+\textcolor{blue}{\beta(t)}$.
+\\ \raggedright \vspace{0.5em}
+Since $\eta$ is a WN and we don't know anything of its future, \textcolor{red}{$\alpha(t)$} is FULLY UNPREDICTABLE. While \textcolor{blue}{$\beta(t)$} is predictable, cause it depends on the past of $\eta$. Thus we can write:
+\center 
+$\hat{v}(t+r|t)=\hat{v}(t|t-r)=\beta(t)$
+\\ \raggedright \vspace{0.5em}
+To evaluate the performance of our prediction we can use the \textbf{prediction error} and its variance:
+\center
+$\epsilon(t)=v(t)-\hat{v}(t+r|t)$ \\
+$Var[\epsilon(t)]=\lambda^2(\hat{w}_0^2+\hat{w}_1^2+...+\hat{w}_{r-1}^2)$
+\\ \raggedright \vspace{0.5em}
+\textit{Note that the variance of the error increases with r, meaning that more distant prediction result to be less precise.} \\
+Practically $\hat{v}(t+r|t)=\hat{W}_r(z)\eta(t)$, where $\hat{W}_r(z)$ is the result of the r-step LONG DIVISION of the numerator and denominator of $W(z)$ in canonical form.
+\subsection{True Problem}
+In the true problem we want to find the predictor from data, meaning the past values of $v(\bullet)$. The solution to this is simply:
+\center $W_r(z)=\hat{W}(z)^-1\hat{W}_r(z)$
+\\ \raggedright \vspace{0.5em}
+with $\hat{W}_r(z)$ being the transfer function of the predictor, $W(z)$ being the transfer function of the original system in canonical form and $\hat{W}_r(z)$ being the solution to the fake problem. Here $"r"$ are the number of steps of the predictor. \\ 
+There is a shortcut that can be used with ARMA process, in general:
+\center
+	$\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t)$, with $\hat{W}(z)=\frac{C(z)}{A(z)}$
+\\ \raggedright
+\subsection{Prediction with eXogenous Variables}
+An exogenous variable is another input variable $u(t)$ for the system which differently from the WN is a \uline{deterministic variable}.
+\subsubsection{ARX Model}
+\center $ARX(n_a,_b): v(t)=a_1v(t-1)+...+a_{n_a}v(t-n_a)+b_1u(t-1)+...+b_{n_b}u(t-n_b)+\eta(t)$ 
+\\ \vspace{0.3em}
+or in operator form
+\\ \vspace{0.3em}
+$A(z)v(t)=B(z)u(t-1)+\eta(t)$
+\\ \raggedright \vspace{0.5em}
+meaning that the transfer function from $u$ to $v$ is $\frac{B(z)}{A(z)}$ and the one from $\eta$ to $v$ is $\frac{1}{A(z)}$.
+\subsubsection{ARMAX Model}
+Similarly to ARX models, it is defined as $A(z)v(t)=C(z)\eta(t)+B(z)\eta(t-1.$. \\
+It can be represented also with the \uline{Box \& Jenkins model}, in which the WN is considered as a disturb (or noise) and $G(z)$ is the effect of the exogenous variable: 
+\center 
+$y(t)=G(z)u(t)+W(z)\eta(t)$
+\\ \raggedright \vspace{0.5em}
+The new predictor formula becomes:
+\center 
+$\hat{y}(t|t-1)=\frac{C(z)-A(z)}{C(z)}y(t)+\frac{B(z)}{C(z)}u(t-1)$
+\\ \raggedright
+\section{Prediction Error minimization methods}
+\textbf{Identification} consists in estimating a model from data. We can define the prediction error as before: $\epsilon(t)=v(t)-\hat{v}(t+r|t)$. We want to minimize this prediction error, and representing it as a WN (fully unpredictable). \\
+Steps:
+\begin{enumerate}
+	\item \textbf{Data collection}: ${u(1),...,u(n)}$ and ${y(1),...,y(n)}$
+	\item \textbf{Choice of the model family}: $M(\theta)$ and corresponding $\epsilon_\theta(t)$, where $\theta$ is a vector of parameters
+	\item \textbf{Choice of optimization criterion}: for example we can have
+	\center
+		$J(\theta)=\frac{1}{N}\sum_{t=1}^{N}\epsilon_\theta(t)^2$ mean squared error \\
+		$J(\theta)=\frac{1}{N}\sum_{t=1}^{N}|\epsilon_\theta(t)|$ mean absolute error \\
+	\raggedright
+	\item \textbf{Optimization}: model parameters are obtained with $\theta=minJ(\theta) \rightarrow \frac{dJ(\theta)}{d\theta} = 0$
+	\item \textbf{Validation}: final analysis of the results to evaluate if they satisfy our requirements
+\end{enumerate}
+\subsection{Least Square method - LS}
+Consider the ARX model:
+\center $M(\theta):y(t)=a_1(t-1)+...+a_{n_a}y(t-n_a)+b_1u(t-1)+...+u_{n_b}(t-n_b)+\xi(t)= \theta^T\phi(t)+\eta(t)$
+\\ \raggedright \vspace{0.5em}
+being $\theta = |a_1, ... a_{n_a}, b_1, ..., b_{n_b}|$ and 
+$\phi(t)=|y(t-1), ... y(t-n_a), u(t-1), ..., u(t-n_b)|$. \\
+Considering as optimization criterion the Mean Squared Error, we impose its derivative equal to zero and we obtain the \textbf{normal equations} and the parameters estimate ($\hat{\theta}$).
+\center
+	$\sum_{t=1}^N\phi(t)\phi^T(t)\theta = \sum_{t=1}^Ny(t)\phi^T(t)$ $\rightarrow$ $\hat{\theta}=[\sum_{t=1}^N\phi(t)\phi^T(t)]^{-1}*\sum_{t=1}^Ny(t)\phi^T(t)$ 
+\\ \raggedright \vspace{0.5em}
+Depending on the value of the second derivative, the matrix $\frac{d^2J(\theta)}{d\theta^2}$, we can have two situations:
+\begin{enumerate}
+	\item \textbf{Positive Definite Matrix}: one point of minimum $\hat{\theta}$ and $J(\theta)$ is a bowl (a paraboloid with vertex in $\hat{\theta}$
+	\item \textbf{Positive Semidefinite Matrix}: infinite many solutions ($ J(\theta)$ is similar to a section of a pipe)
+\end{enumerate}
+Let's now consider the $R(N)$ matrix, defined as $R(N)=\frac{1}{N}\sum_{t=1}^N\theta(t)\theta^T(t)$. \\
+In an ARX(1,1) we have the following:
+\center
+$R(N) = \begin{bmatrix}
+\frac{1}{N}y(t-1)^2 & \frac{1}{N}y(t-1)u(t-1)\\
+\frac{1}{N}u(t-1)y(t-1) & \frac{1}{N}u(t-1)^2
+\end{bmatrix}$ \\ \vspace{0.3em}
+\textit{Note that the two elements in the main diagonal are respectively the sample variance of $y$ and the sample variance of $u$}. \\
+\raggedright
+\pagebreak
+Bringing $N \rightarrow \infty$:
+$\bar{R}= \begin{bmatrix}
+\bar{R}_{yy} & \bar{R}_{yu}\\
+\bar{R}_{uy} & \bar{R}_{uu}
+\end{bmatrix} = \begin{bmatrix}
+\gamma_{yy}(0) & \gamma_{yu}(0)\\
+\gamma_{uy}(0) & \gamma_{uu}(0)
+\end{bmatrix}$ \\ \vspace{0.5em}
+In a general ARX($n_a$,$n_b$) model, we obtain that:
+\center
+ $\bar{R}_uu= \begin{bmatrix}
+\gamma_{uu}(0) & \gamma_{uu}(1) & \gamma_{uu}(2) & ...\\
+\gamma_{uu}(1) & \gamma_{uu}(0) & ... \\
+\gamma_{uu}(2) & ..
+\end{bmatrix}$
+\\ \raggedright \vspace{0.5em}
+This matrix is called \textbf{Toepliz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).}
+\subsection{Maximum Likelihood method - ML}
+This method is based on ARMAX models instead of ARX: no more linearity in the parameters and no normal equations. \\
+\center $M(\theta): A(z)y(t)=B(z)u(t-1)+C(z)\eta(t)$
+\\ \raggedright \vspace{0.3em}
+The procedure is still the same to find $\hat{\theta}$ from data is the same: collect data, compute $J(\theta)$ and then minimize it.
+The performance index $J(\theta)$ based on the prediction error still can be the mean square error. Differently from the LS method, the function is now non-convex, thus we need an iterative method to solve the minimization problem.
+\subsubsection{The Newton Method}
+Let's suppose without loss of generality, that $\theta$ is a scalar. The basic idea of this iterative procedure is to \textbf{approximate $J(\theta)$ with a quadratic function $V(\theta)$}. The minimum of this function for the $r^{th}$ iteration will be considered as the estimated vector of parameters $\hat{\theta}^{r+1}$ of the following iteration. \\ By letting $r \rightarrow \infty$ we obtain the minimum $\hat{\bar{\theta}}$. But there is no guarantee that the minimum found is a global minimum. One simple method to deal with this problem is to execute multiple times the algorithm with different initializations and take the best among the different runs. \\
+Procedure:
+\begin{enumerate}
+	\item At iteration $"r"$ we have to estimate $\hat{\theta?r}$
+	\item From $\hat{\theta}^r$ we can obtain $A^r(z),B^r(z),C^r(z)$
+	\item We can obtain $\epsilon^r(t)$ by means of those: $C^r(z)\epsilon^r(t)=A^r(z)y(t)-B^r(z)u(t-1)$
+	\item Filter data to obtain the gradient vector $\Psi^r(t) = - \frac{d\epsilon^r(t)}{d\theta}$
+	\item Use Gauss-Newton formula to compute $\hat{\theta}^{(r+1)}$ = $\theta^{(r)}+(\sum_t\Psi(t)\Psi^T(t))^-1\sum_t\Psi(t)\epsilon(t)$
+	\item Repeat until convergence
+\end{enumerate}
+\subsection{Performance of prediction error identification methods}
+If we construct the prediction error as usual:
+\center
+	$\epsilon_\theta(t)=y(t)-\hat{y}_\theta(t)$
+\\ \raggedright
+Both $y(t)$ and $\hat{y}_\theta(t)$ are sequence of points. Thus the performance index $J(\theta)$ depends on specific points that are provided. To highlight it, we add the subscript N:
+\center
+	$J_N(\theta) = \frac{1}{N}\sum_{t=1}^N\epsilon_\theta(t)^2$
+\\ \raggedright \vspace{0.5em}
+Then also the estimated parameters $\hat{\theta_N}$ depends on the data points. \\If the prediction error can be seen as a stationary process,we expect that with $N \rightarrow \infty$:
+\center $J_N(\theta) \rightarrow \bar{J}(\theta)=Var[\epsilon_\theta(t)]$\\  $\hat{\theta}_N \rightarrow \bar{\theta}$
+\\ \raggedright \vspace{0.3em}
+$\bar{J}(\theta)$ does not depend on the particular outcome of the random experiment and so will have a unique minimum.
+ \begin{figure}[h!]
+ \hfill \includegraphics[width=185pt]{images/pem.png}\hspace*{\fill}
+  \label{fig:pem}
+  \caption{When $N \rightarrow \infty$ we have a unique deterministic curve}
+\end{figure} \\
+The performance of a prediction error identification method can be studied asymptotically by analysing the properties of $M(\bar{\theta})$. Having a system $S \in M(\theta)$, we can define $S=M(\theta^\cdot)$ with $\theta^\cdot$ fixed and we can study the rate of convergence of $\hat{\theta_N}$ to $\theta^\cdot$ by performing the variance of their difference. Example with LS:
+\center
+$Var[\hat{\theta_N} - \theta^\cdot] - \frac{1}{N}[\frac{1}{N}\sum_t\phi(t)\phi^T(t)]^{-1}\lambda^2$ \\ \vspace{1em}
+with $\lambda^2=\frac{1}{N}\sum_t\epsilon_\theta(t)^2$ 
+\\ \raggedright
+\section{Model Complexity Selection}
+After computing $\hat{\theta}_N$, we have $J_N(\hat{\theta}_N)^{(n)}$ for a model of order $n$. How can we select the best value of $n$, namely the best model complexity?
+\begin{itemize}
+	\item \textbf{Naive approach}: compute the performance index $J_N$ for multiple increasing values of $n$ until we find the best performance
+	\item \textbf{Cross Validation}: divide the dataset with identification and validation set; use the former to build the model and evaluate the performance index using the validation set (we are wasting some of the data, because they canno be used in the identification process)
+	\item \textbf{Final Prediction Error}: $FPE=\frac{N+n}{N-n}J_N(\hat{\theta}_N)^{(n)}$ \\
+	We are giving a penalty to the models with high complexity. The FPE functions is not monotonically decreasing, and the complexity corresponding to its minimum value can be chosen as complexity of the model
+	\item \textbf{Akaike Information Criterion}: $AIC=\frac{2n}{N}+\ln{J_N(\hat{\theta}_N)^{(n)}}$ \\ For high values of N, this is equivalent to FPE. \\ The \uline{first term is the one regarding the complexity of the model}, while \uline{the second is the one regarding the fitting of the data}
+	\item \textbf{Minimum Description Length}: $MDL=\frac{n}{N}\ln{N}+\ln{J_N(\hat{\theta}_N)^{(n)}}$ \\
+	Asymptotically is simliar to AIC but with lower penalization $\rightarrow$ MDL leads to more parsimonious models
+\end{itemize}
+\section{Durbin-Levinson algorithm}
+A recursive algorithm to estimate the parameters of an $AR(n+1)$ starting from an $AR(n)$ model. Using this algorithm we avoid to invert several matrices, which is an expensive procedure. \\
+Procedure for $AR(n) \rightarrow AR(n+1)$:
+ \begin{figure}[h!]
+ \hfill \includegraphics[width=200pt]{images/durbin.png}\hspace*{\fill}
+  \label{fig:durbin}
+\end{figure} 
+\subsection{Time series analysis made easy}
+Now we can see easily estimate the order of $MA$ and $AR$ processes.
+\subsubsection{MA Models}
+We know that $\gamma_y(\tau)=0$ where $\tau > n$. From that we can determine the order of our MA model by finding the value of $\tau$ for which the covariance function goes to zero.
+\subsubsection{AR Models} 
+In this case the $PARCOV(\tau)$ function may be useful. Considering the two models:
+\center 
+	$AR(k-1):y(t)=a_1^{(k-1)}y(t-1)+...+a_{k-1}^{(k-1)}y(t-k+1) + \eta(t)$ \\
+	$AR(k):y(t)=a_1^{(k)}y(t-1)+...+a_{k}^{(k)}y(t-k) + \eta(t)$ \\
+	$PARCOV(\tau)=a_\tau^{(\tau)}$ \\
+	\raggedright \vspace{0.5em}
+	Namely, the PARtial COVariance function is the last identifier parameter $a_\tau$ of an $AR(\tau)$ mode. One then can estimate $\gamma(\tau)$ and then $PARCOV(\tau)$ to finally decide the order of the system. Indeed, if the order of the "true" AR model is $n$ then:
+	\center $PARCOV(\tau)=0$ $\forall \tau > n$
+	\\ \raggedright
+\subsubsection{More on PARCOV}
+In general the partial covariance function can be used to determine if the model to be used should be an AR or an MA:
+\begin{itemize}
+	\item if, at a certain point, the covariance function goes to zero before the partial covariance does, the process is an MA
+	\item if the partial covariance function goes to zero first, the process is an AR
+\end{itemize}
+\section{Recursive Least Squares - RLS}
+All the algorithms seen so far are batch methods that work "\textit{offline}", that use all the data at once. Now we will see a recursive method that is able to update the estimate by adding new data. The latter methods help to overcome the limitation of when the data are coming some at a time, thus this method can work "\textbf{\textit{online}}".
+\end{document}
