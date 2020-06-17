@@ -59,7 +59,7 @@ A random variable $v$ can be described by three main properties:
 \end{itemize}
 \textbf{Random Vector}: a vector composed of random variables.
 \\ \\
-The \textbf{Cross Variance} between two elements of it can be defined as:
+The \textbf{Covariance} (or Cross Variance) between two elements of it can be defined as:
 \center 
 $\lambda_{12} = E[(v_1-E[v_1])(v_2-E[v_2])]$ with $V = | v_1 v_2 |^T$
 \\
@@ -172,7 +172,7 @@ By the original definition, the spectrum of a stationary process is the \textit{
  \begin{figure}[h!]
  \hfill \includegraphics[width=300pt]{images/spectrum.png}\hspace*{\fill}
   \label{fig:spectrum}
-\end{figure}
+\end{figure} \\
  There exist also the \uline{complex spectrum}:
  \center
  $\Phi (z)=\sum_{\tau=-\infty}^{\infty} \gamma (\tau)z^{-\tau} \rightarrow \Gamma(\omega)=\Phi(z=e^{j \omega})$
@@ -194,7 +194,7 @@ $\Gamma_\eta(\omega) = \gamma(0) = Var[\eta(t)] = \lambda^2$
 \subsection{Fundamental Theorem of Spectral Analysis}
 The spectrum of a process $y$ that takes in input a process $u$ is:
 \center 
-$\Gamma_y(\omega)=|W(e^{j \omega)}|^2*\Gamma_u(\omega)$
+$\Gamma_{yy}(\omega)=|W(e^{j \omega)}|^2*\Gamma_{uu}(\omega)$
 \\
  \begin{figure}[h!]
  \hfill \includegraphics[width=200pt]{images/spectrum-theorem.png}\hspace*{\fill}
@@ -231,7 +231,7 @@ $Var[\epsilon(t)]=\lambda^2(\hat{w}_0^2+\hat{w}_1^2+...+\hat{w}_{r-1}^2)$
 Practically $\hat{v}(t+r|t)=\hat{W}_r(z)\eta(t)$, where $\hat{W}_r(z)$ is the result of the r-step LONG DIVISION of the numerator and denominator of $W(z)$ in canonical form.
 \subsection{True Problem}
 In the true problem we want to find the predictor from data, meaning the past values of $v(\bullet)$. The solution to this is simply:
-\center $W_r(z)=\hat{W}(z)^-1\hat{W}_r(z)$
+\center $W_r(z)=\hat{W}(z)^{-1}\hat{W}_r(z)$
 \\ \raggedright \vspace{0.5em}
 with $\hat{W}_r(z)$ being the transfer function of the predictor, $W(z)$ being the transfer function of the original system in canonical form and $\hat{W}_r(z)$ being the solution to the fake problem. Here $"r"$ are the number of steps of the predictor. \\ 
 There is a shortcut that can be used with ARMA process, in general:
@@ -273,7 +273,7 @@ Steps:
 	\item \textbf{Validation}: final analysis of the results to evaluate if they satisfy our requirements
 \end{enumerate}
 \subsection{Least Square method - LS}
-Consider the ARX model:
+Consider the AR or ARX model:
 \center $M(\theta):y(t)=a_1(t-1)+...+a_{n_a}y(t-n_a)+b_1u(t-1)+...+u_{n_b}(t-n_b)+\xi(t)= \theta^T\phi(t)+\eta(t)$
 \\ \raggedright \vspace{0.5em}
 being $\theta = |a_1, ... a_{n_a}, b_1, ..., b_{n_b}|$ and 
@@ -285,7 +285,7 @@ Considering as optimization criterion the Mean Squared Error, we impose its deri
 Depending on the value of the second derivative, the matrix $\frac{d^2J(\theta)}{d\theta^2}$, we can have two situations:
 \begin{enumerate}
 	\item \textbf{Positive Definite Matrix}: one point of minimum $\hat{\theta}$ and $J(\theta)$ is a bowl (a paraboloid with vertex in $\hat{\theta}$
-	\item \textbf{Positive Semidefinite Matrix}: infinite many solutions ($ J(\theta)$ is similar to a section of a pipe)
+	\item \textbf{Positive Semidefinite Matrix (but not positive definite)}: infinite many solutions ($ J(\theta)$ is similar to a section of a pipe)
 \end{enumerate}
 Let's now consider the $R(N)$ matrix, defined as $R(N)=\frac{1}{N}\sum_{t=1}^N\theta(t)\theta^T(t)$. \\
 In an ARX(1,1) we have the following:
@@ -313,9 +313,10 @@ In a general ARX($n_a$,$n_b$) model, we obtain that:
 \gamma_{uu}(2) & ..
 \end{bmatrix}$
 \\ \raggedright \vspace{0.5em}
-This matrix is called \textbf{Toeplitz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).}
+This matrix is called \textbf{Toeplitz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).} \\
+Our aim is to have $\bar{R}_{uu}$ invertible (positive semi-definite) so that the normal equations will have a unique solution.
 \subsection{Maximum Likelihood method - ML}
-This method is based on ARMAX models instead of ARX: no more linearity in the parameters and no normal equations. \\
+This method is based on ARMA or MA or ARMAX models instead of AR and ARX: no more linearity in the parameters and no normal equations. \\
 \center $M(\theta): A(z)y(t)=B(z)u(t-1)+C(z)\eta(t)$
 \\ \raggedright \vspace{0.3em}
 The procedure is still the same to find $\hat{\theta}$ from data is the same: collect data, compute $J(\theta)$ and then minimize it.
@@ -324,7 +325,7 @@ The performance index $J(\theta)$ based on the prediction error still can be the
 Let's suppose without loss of generality, that $\theta$ is a scalar. The basic idea of this iterative procedure is to \textbf{approximate $J(\theta)$ with a quadratic function $V(\theta)$}. The minimum of this function for the $r^{th}$ iteration will be considered as the estimated vector of parameters $\hat{\theta}^{r+1}$ of the following iteration. \\ By letting $r \rightarrow \infty$ we obtain the minimum $\hat{\bar{\theta}}$. But there is no guarantee that the minimum found is a global minimum. One simple method to deal with this problem is to execute multiple times the algorithm with different initializations and take the best among the different runs. \\
 Procedure:
 \begin{enumerate}
-	\item At iteration $"r"$ we have to estimate $\hat{\theta?r}$
+	\item At iteration $"r"$ we have to estimate $\hat{\theta^r}$
 	\item From $\hat{\theta}^r$ we can obtain $A^r(z),B^r(z),C^r(z)$
 	\item We can obtain $\epsilon^r(t)$ by means of those: $C^r(z)\epsilon^r(t)=A^r(z)y(t)-B^r(z)u(t-1)$
 	\item Filter data to obtain the gradient vector $\Psi^r(t) = - \frac{d\epsilon^r(t)}{d\theta}$
@@ -349,11 +350,7 @@ $\bar{J}(\theta)$ does not depend on the particular outcome of the random experi
   \label{fig:pem}
   \caption{When $N \rightarrow \infty$ we have a unique deterministic curve}
 \end{figure} \\
-The performance of a prediction error identification method can be studied asymptotically by analysing the properties of $M(\bar{\theta})$. Having a system $S \in M(\theta)$, we can define $S=M(\theta^\cdot)$ with $\theta^\cdot$ fixed and we can study the rate of convergence of $\hat{\theta_N}$ to $\theta^\cdot$ by performing the variance of their difference. Example with LS:
-\center
-$Var[\hat{\theta_N} - \theta^\cdot] - \frac{1}{N}[\frac{1}{N}\sum_t\phi(t)\phi^T(t)]^{-1}\lambda^2$ \\ \vspace{1em}
-with $\lambda^2=\frac{1}{N}\sum_t\epsilon_\theta(t)^2$ 
-\\ \raggedright
+The performance of a prediction error identification method can be studied asymptotically by analysing the properties of $M(\bar{\theta})$. Having a system $S \in M(\theta)$, we can define $S=M(\theta^\cdot)$ with $\theta^\cdot$ fixed and we can study the rate of convergence of $\hat{\theta_N}$ to $\theta^\cdot$ by performing the variance of their difference.
 \section{Model Complexity Selection}
 After computing $\hat{\theta}_N$, we have $J_N(\hat{\theta}_N)^{(n)}$ for a model of order $n$. How can we select the best value of $n$, namely the best model complexity?
 \begin{itemize}
@@ -374,7 +371,7 @@ After computing $\hat{\theta}_N$, we have $J_N(\hat{\theta}_N)^{(n)}$ for a mode
 A recursive algorithm to estimate the parameters of an $AR(n+1)$ starting from an $AR(n)$ model. Using this algorithm we avoid to invert several matrices, which is an expensive procedure. \\
 Procedure for $AR(n) \rightarrow AR(n+1)$:
  \begin{figure}[h!]
- \hfill \includegraphics[width=200pt]{images/durbin.png}\hspace*{\fill}
+ \hfill \includegraphics[width=150pt]{images/durbin.png}\hspace*{\fill}
   \label{fig:durbin}
 \end{figure} 
 \subsection{Time series analysis made easy}
@@ -398,8 +395,12 @@ In general the partial covariance function can be used to determine if the model
 	\item if the partial covariance function goes to zero first, the process is an AR
 \end{itemize}
 \section{Recursive Least Squares - RLS}
-All the algorithms seen so far are batch methods that work "\textit{offline}", that use all the data at once. Now we will see a recursive method that is able to update the estimate by adding new data. The latter methods help to overcome the limitation of when the data are coming some at a time, thus this method can work "\textbf{\textit{online}}".
-\pagebreak
+All the algorithms seen so far are batch methods that work "\textit{offline}", that use all the data at once. Now we will see a recursive method that is able to update the estimate by adding new data. The latter methods help to overcome the limitation of when the data are coming some at a time, thus this method can work "\textbf{\textit{online}}". \\
+$\mu$ is called \textbf{forgetting factor}, and is a parameters that allows to give more importance to the new data with respect to the old one. Indeed it is applied to the original LS formula in this way: 
+\center
+	$S(t)=\mu S(t-1)+\phi(t)\phi^T(t)$
+\\ \raggedright
+Note that if $\mu=1$ the method is the normal LS estimation.
 \section{Appendix: Example Questions}
 \begin{center}
 \begin{tabular}{ | m{200pt} | m{200pt}| }
@@ -413,7 +414,7 @@ $\frac{\sqrt{\lambda_{11}}*\sqrt{\lambda_{22}}}{\lambda_{12}}$ & \textbf{False}.
 \hline
 The variance matrix is positive definite. & \textbf{False}. It is positive semi-definite.
 \\ \hline
-A random process depends only on time. & \textbf{False}. A random process is indexed with $t$ but depends on the single outcome of a random experiment $s$.
+A random process depends only on time. & \textbf{False}. A random process is indexed with $t$ but depends also on the single outcome of a random experiment $s$.
 \\ \hline
 The Covariance concept is different from cross variance. & \textbf{False.} They are the same.
 \\ \hline
@@ -440,18 +441,20 @@ Given a spectrum with predominant high frequencies (high values among $\pi$ and 
       Its complex spectrum is equal to $(c_0^2+c_1^2)\lambda^2$.
       & \textbf{False}. $v(t)$ is an MA(1) process. We know that the variance of such process is $Var[v(t)]=(c_0^2+c_1^2)\lambda^2$. Thus this is not the spectrum.
       \\ \hline
-      An AR(2) process has 2 poles.
-      & \textbf{True}. \linebreak $AR(2): v(t)=a_1v(t-1)+a_2v(t-2)+\eta(t)$. Its transfer function is $W(z)=\frac{z^2}{z^2-a_1z^{-1}-a_2}$. Indeed, its denominator has 2 solutions, that corresponds to the poles.
-      \\ \hline
+     
 \end{tabular}
 \end{center}
 \begin{center}
 \pagebreak
 \begin{tabular}{ | m{200pt} | m{200pt}| }
 \hline
+ An AR(2) process has 2 poles.
+      & \textbf{True}. \linebreak $AR(2): v(t)=a_1v(t-1)+a_2v(t-2)+\eta(t)$. Its transfer function is $W(z)=\frac{z^2}{z^2-a_1z-a_2}$. Indeed, its denominator has 2 solutions, that corresponds to the poles. 
+	Moreover such an AR(2) will be stable if $|a_2|<1$, since that parameter is the product of the roots of the denominator.
+      \\ \hline
 	 Given $\eta(t) \sim WN(0,\lambda^2)$ and a process with the following behavior: \\ $v(t)=c_0\eta(t)+c_1\eta(t-1)$, $c_0,c_1 \in {\rm I\!R}$. \\
       Its real spectrum will never have zeroes.
-      & \textbf{False.} The motivation stands in the next answer.
+      & \textbf{False.} That process is an MA(1). \linebreak The spectrum of such process is: $\gamma(\omega)=[(c_0^2+c_1^2+2c_0c_1cos(\omega))]\lambda^2$. Thus, it can be null for some values of $c_0$ and $c_1$. For example, when $c_0=c_1$ and $\omega=\pi$, the spectrum is null. 
       \\ \hline 
       Given $\eta(t) \sim WN(0,\lambda^2)$ and a process with the following behavior: \\ $v(t)=c_0\eta(t)+c_1\eta(t-1)$, $c_0,c_1 \in {\rm I\!R}$. \\
       Its complex spectrum is:
@@ -462,7 +465,7 @@ Given a spectrum with predominant high frequencies (high values among $\pi$ and 
      \\ \hline
      An $MA(\infty)$ process is the same as an $AR(1)$? & \textbf{False}. Actually, an $AR(n)$ can be reduced to an $MA(\infty)$ applying some constraints on the coefficients ($|a|<1$). 
      \\ \hline
-     To obtain Yule Walker Equations from an process $v(t)$, you can sum to both parts of the equation $v(t-\tau)$ and then compute the covariance function. & \textbf{False}. You should multiply, not sum.
+     To obtain Yule Walker Equations from a process $v(t)$, you can sum to both parts of the equation $v(t-\tau)$ and then compute the covariance function. & \textbf{False}. You should multiply, not sum.
      \\ \hline
      An $AR(10)$ process has no zeroes in its transfer function. & \textbf{False}. It has 10 zeroes, all in zero.
      \\ \hline
@@ -470,9 +473,9 @@ Given a spectrum with predominant high frequencies (high values among $\pi$ and 
      \\ \hline
      An $ARMA(1,1)$ may have no zeroes or poles. & \textbf{True}. If they can be simplified or if it would have been in canonical form it could have been true.
      \\ \hline
-     The complex spectrum is the same thing as the spectrum. & \textbf{False}. The real spectrum is equivalent to the complex spectrum evaluated for $z=e^{j\omega}$.
+     The complex spectrum is the same thing as the real spectrum. & \textbf{False}. The real spectrum is equivalent to the complex spectrum evaluated for $z=e^{j\omega}$.
      \\ \hline
-     Given any transfer function with input $u$ and output $y$, is it possible to invert the transfer function? & \textbf{False}. In order to invert it, it should be in canonical form.
+     Given any transfer function with input $u$ and output $y$, is it possible to invert the transfer function? & \textbf{False}. In order to invert it, it should be in canonical form or at least NUM and DEN should have same degree, with poles and zeroes inside unit circle.
      \\ \hline
      Every process has a canonical representation. & \textbf{False}. Processes that are not stochastic and stationary don't have it.
      \\ \hline Every stationary sthocastic process has a canonical representation. & \textbf{True}. In particular, given a rational process there is one and only one ARMA representation of it which is canonical. This special representation is used to solve the problem of multiplicity of ARMA models for which there are many different ARMA models for the same process.
@@ -486,19 +489,19 @@ Given a spectrum with predominant high frequencies (high values among $\pi$ and 
      \\ \hline
      AIC achieves the minimum for lower orders w.r.t. MDL. & \textbf{False}. Is the contrary. MDL achieves the minimum for lower order w.r.t. AIC.
      \\ \hline
-     Anderson Whiteness Test allows you to conclude that the prediction error is a WN. & \textbf{False}. It only provides a probability about it.
-     \\ \hline
-     Validity of the estimated model comes down to detecting if the prediction error is a WN. & \textbf{True}. We want to reduce our prediction error to a white noise because to improve our estimation, it should be fully unpredictable.
-     \\ \hline
      \end{tabular}
 \end{center}
 \pagebreak
 \begin{center}
 \begin{tabular}{ | m{200pt} | m{200pt}| }
 \hline
-     To model systems, we use AR and ARMA model families. & \textbf{False}. We use them for time series analysis.
+Anderson Whiteness Test allows you to conclude that the prediction error is certainly a WN. & \textbf{False}. It only provides a probability about it.
      \\ \hline
-     To model time series, we use ARX and ARMAX. & \textbf{False}. We use them for ARX and ARMAX
+     In the end, to see if the estimated model is valid, we need to detect if the prediction error is a WN. & \textbf{True}. We want to reduce our prediction error to a white noise because to improve our estimation, it should be fully unpredictable.
+     \\ \hline
+     To model systems, we use AR, MA and ARMA model families. & \textbf{False}. We use them for time series analysis.
+     \\ \hline
+     To model time series, we use ARX and ARMAX. & \textbf{False}. We use them for systems.
      \\ \hline
      Least squares method can be used with ARMA, ARMAX and MA. & \textbf{False}. LS method is only for AR/ARX models.
      \\ \hline
@@ -512,13 +515,13 @@ Given a spectrum with predominant high frequencies (high values among $\pi$ and 
      Maximum Likelihood has non-linear parameters. & \textbf{True}. Instead the Least Squares method is linear in parameters.
     \\ \hline
     ARMA/ARMAX are better to be estimated with Least Squares method. 
-    & \textbf{False}. Only AR/ARX.
+    & \textbf{False}. Only AR/ARX can be used with Least Squares.
     \\ \hline
     To estimate the covariance, we apply the Bartlett method. & \textbf{False}. With Bartlett we estimate the spectrum.
     \\ \hline
-    The reason why Bartlett data uses large amount of data is because it requires to build many subseries of data. & \textbf{True}.
+    The reason why Bartlett method uses large amount of data is because it requires to build many subseries of data. & \textbf{True}.
     \\ \hline
-    The Newton formula guarantees to find the best estimator, by using the Taylor expansion to avoid local minima. & \textbf{False}. There is no guarantee that it ends up finding a local minima.
+    The Newton method guarantees to find global minimum. & \textbf{False}. There is no guarantee that the minimum found is a global minimum. 
     \\ \hline
     A model of a process is reliable if its error w.r.t. the measured data is a WN. & \textbf{True}. The error should be a fully unpredictable signal.
     \\ \hline
