@@ -315,6 +315,15 @@ In a general ARX($n_a$,$n_b$) model, we obtain that:
 \\ \raggedright \vspace{0.5em}
 This matrix is called \textbf{Toeplitz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).} \\
 Our aim is to have $\bar{R}_{uu}$ invertible (positive semi-definite) so that the normal equations will have a unique solution.
+\subsection{Estimation of mean, covariance and spectrum}
+In this section we refer to a generic estimator from the N data ( e.g., the sample mean or the sample covariance) as $\hat{s}_N$. \\
+\subsubsection{Mean}
+\textbf{Correctness}: \\
+$\hat{s}_N$ is a correct estimator if $E[\hat{s}_N]=\bar{s}$. That is, the expected value of the estimator is equal to the probabilistic mean to be estimated. \\
+\textbf{Consistency}: \\
+$\hat{s}_N$ is a consistent estimator if $Var[\hat{s}_N] \rightarrow 0$ as $N \rightarrow 0$. That is, the estimate error variance tends to zero as the number of measured data tends to infinity.
+\subsubsection{Spectrum}
+Consider $\hat{\Gamma}$ the spectrum estimator. It is \textbf{asymptotically correct} because: \\ $E[\hat{\Gamma}(\omega)] \rightarrow \Gamma(\omega)$ as $N \rightarrow \infty$ \\ but \textbf{not consistent}: \\ $Var[\hat{\Gamma}(\omega)] \rightarrow \Gamma(\omega)^2$ as $N \rightarrow \infty$. \\ The problem of inconsistency can be tackled using the Bartlett method.
 \subsection{Maximum Likelihood method - ML}
 This method is based on ARMA or MA or ARMAX models instead of AR and ARX: no more linearity in the parameters and no normal equations. \\
 \center $M(\theta): A(z)y(t)=B(z)u(t-1)+C(z)\eta(t)$
