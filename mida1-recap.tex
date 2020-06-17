@@ -13,6 +13,7 @@
 \usepackage{subcaption}
 \usepackage{fancybox, graphicx}
 \usepackage{tikz}
+\usepackage{array}
 \usepackage{ulem}
 \usetikzlibrary{shadows}
 \usepackage{listings}
@@ -301,13 +302,13 @@ $\bar{R}= \begin{bmatrix}
 \end{bmatrix}$ \\ \vspace{0.5em}
 In a general ARX($n_a$,$n_b$) model, we obtain that:
 \center
- $\bar{R}_uu= \begin{bmatrix}
+ $\bar{R}_{uu}= \begin{bmatrix}
 \gamma_{uu}(0) & \gamma_{uu}(1) & \gamma_{uu}(2) & ...\\
 \gamma_{uu}(1) & \gamma_{uu}(0) & ... \\
 \gamma_{uu}(2) & ..
 \end{bmatrix}$
 \\ \raggedright \vspace{0.5em}
-This matrix is called \textbf{Toepliz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).}
+This matrix is called \textbf{Toeplitz matrix}: inside each diagonal there's the same element; the one inside the main diagonal is the variance. \textit{(Note that for $\bar{R}_{yy}$ is the same but with $y(\bullet)$).}
 \subsection{Maximum Likelihood method - ML}
 This method is based on ARMAX models instead of ARX: no more linearity in the parameters and no normal equations. \\
 \center $M(\theta): A(z)y(t)=B(z)u(t-1)+C(z)\eta(t)$
@@ -359,6 +360,11 @@ After computing $\hat{\theta}_N$, we have $J_N(\hat{\theta}_N)^{(n)}$ for a mode
 	\item \textbf{Minimum Description Length}: $MDL=\frac{n}{N}\ln{N}+\ln{J_N(\hat{\theta}_N)^{(n)}}$ \\
 	Asymptotically is simliar to AIC but with lower penalization $\rightarrow$ MDL leads to more parsimonious models
 \end{itemize}
+ \begin{figure}[h!]
+ \hfill \includegraphics[width=300pt]{images/summary-criterion.png}\hspace*{\fill}
+  \label{fig:summary-criterion}
+\end{figure}
+\pagebreak
 \section{Durbin-Levinson algorithm}
 A recursive algorithm to estimate the parameters of an $AR(n+1)$ starting from an $AR(n)$ model. Using this algorithm we avoid to invert several matrices, which is an expensive procedure. \\
 Procedure for $AR(n) \rightarrow AR(n+1)$:
@@ -388,4 +394,137 @@ In general the partial covariance function can be used to determine if the model
 \end{itemize}
 \section{Recursive Least Squares - RLS}
 All the algorithms seen so far are batch methods that work "\textit{offline}", that use all the data at once. Now we will see a recursive method that is able to update the estimate by adding new data. The latter methods help to overcome the limitation of when the data are coming some at a time, thus this method can work "\textbf{\textit{online}}".
+\pagebreak
+\section{Appendix: Example Questions}
+\begin{center}
+\begin{tabular}{ | m{200pt} | m{200pt}| }
+\hline
+ The variance matrix is a Toeplitz matrix. & \textbf{False}. The Toeplitz matrix is used to guarantee that an even function $\gamma_y(\tau)$ is indeed a covariance function. Hence, $\gamma_y(\tau)$ is the covariance function of a stationary process if the associated Toeplitz matrix is positive semi-definite for each N. In such case,$\gamma_y(\tau)$ is a \textit{positive semi-definite function}. \\
+ \hline
+ For a generic random process, its covariance matrix is a Toeplitz matrix? & \textbf{False}. It would be true if we assume the process to be stationary. \\ 
+ \hline 
+ The covariance coefficient of a random vector of length 2 is:
+$\frac{\sqrt{\lambda_{11}}*\sqrt{\lambda_{22}}}{\lambda_{12}}$ & \textbf{False}. $\rho=\frac{\lambda_{12}}{\sqrt{\lambda_{11}}*\sqrt{\lambda_{22}}}$ \\
+\hline
+The variance matrix is positive definite. & \textbf{False}. It is positive semi-definite.
+\\ \hline
+A random process depends only on time. & \textbf{False}. A random process is indexed with $t$ but depends on the single outcome of a random experiment $s$.
+\\ \hline
+The Covariance concept is different from cross variance. & \textbf{False.} They are the same.
+\\ \hline
+The whiteness property states that if a process has its real spectrum equal to a $K>0$ in zero and $0$ elsewhere, the it is a WN. & \textbf{False}. The whiteness property refers to the covariance of the process. The spectrum is instead a real and even function of $\omega$, periodic of $2\pi$, with values always greater than or equal to 0.
+\\ \hline
+The whiteness property states that the covariance function of a $WN \sim (0,\lambda^2)$ is:
+\begin{equation*}
+  		\gamma(\tau) =
+    		\begin{cases}
+      			\lambda^2 & \tau = 0 \\
+      			0 & otherwise
+    \end{cases}  
+\end{equation*} & \textbf{True}. The covariance function of a WN process is an impulsive function, centered in zero.
+\\ \hline
+The real spectrum of a WN is its variance & \textbf{True}. From the definition of spectrum: $\Gamma(\omega)=\sum_{\tau=-\infty}^{\infty} \gamma(\tau)e^{-j \omega \tau}$. The only term remaining from the sum is the one in zero, namely $\gamma(0)=\lambda^2$ (because the others are null).
+\\ \hline
+Given a spectrum with predominant high frequencies (high values among $\pi$ and $-\pi$), the \textcolor{red}{(a)} graph is the most likely signal from which it is obtained. \\
+\begin{minipage}{.4\textwidth}
+      \includegraphics[width=\linewidth]{images/spectrum-graph.png}
+    \end{minipage}
+      & \textbf{True}. Since the high frequencies are predominant, we see that \textcolor{red}{a} has very fast changes of the intensity that's why it is the most likely realization of the process.
+      \\ \hline
+      Given $\eta(t) \sim WN(0,\lambda^2)$ and a process with the following behavior: \\ $v(t)=c_0\eta(t)+c_1\eta(t-1)$, $c_0,c_1 \in {\rm I\!R}$. \\
+      Its complex spectrum is equal to $(c_0^2+c_1^2)\lambda^2$.
+      & \textbf{False}. $v(t)$ is an MA(1) process. We know that the variance of such process is $Var[v(t)]=(c_0^2+c_1^2)\lambda^2$. Thus this is not the spectrum.
+      \\ \hline
+      An AR(2) process has 2 poles.
+      & \textbf{True}. \linebreak $AR(2): v(t)=a_1v(t-1)+a_2v(t-2)+\eta(t)$. Its transfer function is $W(z)=\frac{z^2}{z^2-a_1z^{-1}-a_2}$. Indeed, its denominator has 2 solutions, that corresponds to the poles.
+      \\ \hline
+\end{tabular}
+\end{center}
+\begin{center}
+\pagebreak
+\begin{tabular}{ | m{200pt} | m{200pt}| }
+\hline
+	 Given $\eta(t) \sim WN(0,\lambda^2)$ and a process with the following behavior: \\ $v(t)=c_0\eta(t)+c_1\eta(t-1)$, $c_0,c_1 \in {\rm I\!R}$. \\
+      Its real spectrum will never have zeroes.
+      & \textbf{False.} The motivation stands in the next answer.
+      \\ \hline 
+      Given $\eta(t) \sim WN(0,\lambda^2)$ and a process with the following behavior: \\ $v(t)=c_0\eta(t)+c_1\eta(t-1)$, $c_0,c_1 \in {\rm I\!R}$. \\
+      Its complex spectrum is:
+      $(c_0^2+c_1^2)\lambda^2 + 2c_0c_1\lambda^2cos(\omega)$
+      & \textbf{False}. That is the formula to compute the real spectrum for an MA(1) process.
+     \\ \hline 
+     An AR(2) process has always 2 zeroes. & \textbf{True}. It has 2 zeroes both in zero.
+     \\ \hline
+     An $MA(\infty)$ process is the same as an $AR(1)$? & \textbf{False}. Actually, an $AR(n)$ can be reduced to an $MA(\infty)$ applying some constraints on the coefficients ($|a|<1$). 
+     \\ \hline
+     To obtain Yule Walker Equations from an process $v(t)$, you can sum to both parts of the equation $v(t-\tau)$ and then compute the covariance function. & \textbf{False}. You should multiply, not sum.
+     \\ \hline
+     An $AR(10)$ process has no zeroes in its transfer function. & \textbf{False}. It has 10 zeroes, all in zero.
+     \\ \hline
+     An $MA(10)$ process may have no zeroes or poles in its transfer function. & \textbf{False.} It always have both.
+     \\ \hline
+     An $ARMA(1,1)$ may have no zeroes or poles. & \textbf{True}. If they can be simplified or if it would have been in canonical form it could have been true.
+     \\ \hline
+     The complex spectrum is the same thing as the spectrum. & \textbf{False}. The real spectrum is equivalent to the complex spectrum evaluated for $z=e^{j\omega}$.
+     \\ \hline
+     Given any transfer function with input $u$ and output $y$, is it possible to invert the transfer function? & \textbf{False}. In order to invert it, it should be in canonical form.
+     \\ \hline
+     Every process has a canonical representation. & \textbf{False}. Processes that are not stochastic and stationary don't have it.
+     \\ \hline Every stationary sthocastic process has a canonical representation. & \textbf{True}. In particular, given a rational process there is one and only one ARMA representation of it which is canonical. This special representation is used to solve the problem of multiplicity of ARMA models for which there are many different ARMA models for the same process.
+     \\ \hline
+     For every possible process, we can write a predictor. & \textbf{True}.
+     \\ \hline
+     Yule-Walker equations can be applied only to $AR(N)$ processes.
+     & \textbf{False}. They can be used on $ARMA$ and $MA$ too, but could be much less useful (especially in $MA$).
+     \\ \hline
+     Is FPE monotonically decreasing? & \textbf{False}. None of those methods are.
+     \\ \hline
+     AIC achieves the minimum for lower orders w.r.t. MDL. & \textbf{False}. Is the contrary. MDL achieves the minimum for lower order w.r.t. AIC.
+     \\ \hline
+     Anderson Whiteness Test allows you to conclude that the prediction error is a WN. & \textbf{False}. It only provides a probability about it.
+     \\ \hline
+     Validity of the estimated model comes down to detecting if the prediction error is a WN. & \textbf{True}. We want to reduce our prediction error to a white noise because to improve our estimation, it should be fully unpredictable.
+     \\ \hline
+     \end{tabular}
+\end{center}
+\pagebreak
+\begin{center}
+\begin{tabular}{ | m{200pt} | m{200pt}| }
+\hline
+     To model systems, we use AR and ARMA model families. & \textbf{False}. We use them for time series analysis.
+     \\ \hline
+     To model time series, we use ARX and ARMAX. & \textbf{False}. We use them for ARX and ARMAX
+     \\ \hline
+     Least squares method can be used with ARMA, ARMAX and MA. & \textbf{False}. LS method is only for AR/ARX models.
+     \\ \hline
+     Let's consider the matrix $R(N)=\frac{1}{N}\sum_{t=1}^N\phi(t)\phi^T(t)$. It always have only one solution. & \textbf{False}. Only if the matrix is positive semi-definite and also invertible, then the normal equations have a unique solution.
+     \\ \hline
+     An estimator is consistent if its variance is the same of the real WN. 
+     & \textbf{False}. An estimator is consistent if the error variance tends to 0 as $N \rightarrow \infty$.
+     \\ \hline
+     An estimator is correct when its expected value is the same of the white noise. & \textbf{False}. An estimator is correct if its expected value is the probabilistic mean to be estimated.
+     \\ \hline
+     Maximum Likelihood has non-linear parameters. & \textbf{True}. Instead the Least Squares method is linear in parameters.
+    \\ \hline
+    ARMA/ARMAX are better to be estimated with Least Squares method. 
+    & \textbf{False}. Only AR/ARX.
+    \\ \hline
+    To estimate the covariance, we apply the Bartlett method. & \textbf{False}. With Bartlett we estimate the spectrum.
+    \\ \hline
+    The reason why Bartlett data uses large amount of data is because it requires to build many subseries of data. & \textbf{True}.
+    \\ \hline
+    The Newton formula guarantees to find the best estimator, by using the Taylor expansion to avoid local minima. & \textbf{False}. There is no guarantee that it ends up finding a local minima.
+    \\ \hline
+    A model of a process is reliable if its error w.r.t. the measured data is a WN. & \textbf{True}. The error should be a fully unpredictable signal.
+    \\ \hline
+    FPE penalizes model complexity. & \textbf{True}.
+    \\ \hline
+    AIC penalizes model complexity as much as FPE with N big, while it penalizes more than FPE with small N. & \textbf{True}.
+    \\ \hline
+    MDL penalizes model complexity more than AIC. & \textbf{True}.
+    \\ \hline
+    The variance of a correct and consistent estimator is 0. & \textbf{False}. The variance of its error must be zero when $N \rightarrow \infty$.
+    \\ \hline
+\end{tabular}
+\end{center}
 \end{document}
