@@ -15,10 +15,21 @@
 \usepackage{tikz}
 \usepackage{array}
 \usepackage{ulem}
+\usepackage{enumitem}
 \usetikzlibrary{shadows}
 \usepackage{listings}
 \usepackage{lmodern,textcomp}
 %\usepackage[english]{babel}
+
+\newcommand{\question}[5]{
+{#1}
+\begin{enumerate}[label=\textbf{\alph*)}]
+	\item {#2}
+	\item {#3}
+	\item {#4}
+	\item {#5}
+\end{enumerate}
+}
 
 \usepackage{tikz}
 \hypersetup{
@@ -544,4 +555,100 @@ Anderson Whiteness Test allows you to conclude that the prediction error is cert
     \\ \hline
 \end{tabular}
 \end{center}
+\pagebreak
+\section{Appendix: Exam 18/06/2020}
+
+\begin{enumerate}
+	\item 
+	\question{For a Moving Average process, \boldmath{$y(t)=c_0e(t)+c_1e(t-1)+c_2e(t-2)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1.}
+	{The value taken by $E[y(t)y(t-1)]$ is $c_0c_1+c_1c_2$}
+	{The value taken by $E[y(t)y(t-2)]$ is $c_0c_1+c_1c_2+c_0c_2$}
+	{The value taken by $E[y(t)y(t-3)]$ is $0$}
+	{The value taken by $E[y(t)y(t-3)]$ is $c0_c2$}
+	\item \question{Consider the system with input $u(t)$, output $y(t)$ and transfer function \boldmath{$W(z)=\frac{z+1}{z+0.5}$}. If $u(t)$ is white noise, then the spectrum of the output is:}{Null at $\omega=0$}{Null at $\omega=\pi$}{Null at $\omega=-\pi$}{Null at $\omega=3\pi$}
+	\item 
+	\question{Consider the process \boldmath{$y(t)=\frac{C(z)}{A(Z)}e(t)$} where \boldmath{$C(z)=1+2z^{-1}, A(z)=1+\frac{1}{2}z^{-1}$} and \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The process covariance is denoted by $\gamma(\tau)$.}{$\frac{C(z)}{A(z)}$ is in canonical representation}{$\gamma(0)=4$}{$\gamma(1)=0$}{$\gamma(2)=0.25$}
+	\item 
+	\question{The \textit{Akaike Information Criterion (AIC)} is a method}{To determine the optimal complexity of a stochastic model}{To estimate the parameters of an ARMA model}{To find the optimal predictor of an AR model}{None of the other replies}
+	\item \question{Consider the Auto-Regressive process generated as \boldmath{$y(t)=0.7y(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1.}{The variance of the prediction error of the optimal one step ahead predictor is 1}{The variance of the prediction error of the optimal one step ahead predictor is 0.7}{The variance of the prediction error of the optimal two steps ahead predictor is 1.49}{The variance of the prediction error of the optimal two steps ahead predictor is 0.7}
+	\item \question{Consider a stationary process with covariance function \boldmath{$\gamma(\tau)$} and \boldmath{$\Gamma(\omega)$} spectrum}{$\gamma(1)=0)$}{$\gamma(1)=4$}{$\gamma(-1)=4$}{$\gamma(-1)=0$}
+	\item \question{The data of a stationary process are used to estimate an Auto-Regressive model of order 1: $\boldmath{y(t)=ay(t-1)+e(t)}$, where \boldmath{$e(t)$} is a white noise. What value can take the estimated parameter a?}{$a=2$}{$a=3$}{$a=5$}{$a=-2$}
+	\item \question{Consider a stationary process \boldmath{$v_1(t)$} with covariance function $\gamma_1(\tau)$ and process \boldmath{$v_2(t)=v_1(t-1)$} with covariance function $\gamma_2(\tau)$.}{$\gamma_2(\tau)=\gamma_1(\tau-1), \forall \tau$}{$\gamma_2(\tau)=\gamma_1(\tau+1), \forall \tau$}
+	{$\gamma_2(\tau)=\gamma_1(\tau), \forall \tau$}
+	{$\gamma_2(\tau)=\gamma_1(\tau+2), \forall \tau$}
+	\item 
+	\question{The \textit{Yule-Walker} equations}{can be used to estimate the parameters of an Auto-Regressive model}{can be used to estimate the parameters of a Moving-Average model}{can be used to determine the mean value of a stationary process}{can be used to compute the covariance function of an Auto-Regressive model}
+	\item \question{Consider the Moving Average process \boldmath{$y(t)=e(t)+0.5e(t-1)$}, where $e(t)$ is a white-noise with  zero expected value and variance 2. The covariance function $\gamma(\tau)$ of \boldmath{$y(t)$} is such that:}{$\gamma(1)=10$}{$\gamma(2)=0.5\gamma(1)$}{$\gamma(2)=0$}{$\gamma(3)=0$}
+	\item \question{For the Auto-Regressive process generated as \boldmath{$y(t)=ay(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1 and parameter \textbf{a} is a real number such that $|a|<1$, which is the variance of the process?}{1}{$\frac{a}{1-a^2}$}{$\frac{a^2}{1-a}$}{$\frac{1}{1-a^2}$}
+	\item \question{Consider the process \boldmath{$y(t)=e(t)+0.5e(t-1)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The covariance function of the process is such that}{$E[y(t)y(t)]=\frac{1}{2},E[y(t)y(t-1)]=\frac{5}{4}$}{$E[y(t)y(t)]=\frac{5}{4},E[y(t)y(t-1)]=\frac{1}{2}$}{$E[y(t)y(t-2)]=0,E[y(t)y(t-3)]=0$}{$E[y(t)y(t-2)]=\frac{1}{4},E[y(t)y(t-3)]=\frac{1}{8}$}
+	\item\question{Consider an \textit{all pass filter} with input \textbf{u} and output \textbf{y}}{If input \textbf{u} is an Auto-Regressive process, output \textbf{y} is a Moving Average process.}{If input \textbf{u} is a constant, output \textbf{y} is a constant.}{If input \textbf{u} is a white noise, output \textbf{y} is a white noise.}{\boldmath{$y(t)=u(t), \forall t$}}
+	\item \question{The spectrum \boldmath{$\Gamma(\omega)$} of a stationary process of variance \boldmath{$\lambda^2$}}{is a periodic function of $\omega$ of periord $2\pi$}{is negative for $\omega < 0$}{is such that $\Gamma(-\omega)=\Gamma(\omega)$}{the area behind the spectrum from $\omega=0$ to $\omega=\pi$ is: $\pi * \lambda^2$}
+	\pagebreak
+	\item \question{Consider the stochastic process \boldmath{$y(t)=-y(t-1)-0.25y(t-2)+e(t)$}, where \boldmath{$e(t)$} is a white noise with expected value 1 and variance 1. Which is the expected value of the process $y(t)$?}{4/9}{0}{2}{1/2}
+	\item \question{Given a random variable $v_1$ with zero expected value and variance 2, consider variable \boldmath{$v_2=av_1$} where \textbf{a} is a real and non null parameter.}{	The expected value of $v_2$ is $a$}{The expected value of $v_2$ is 0}{The variance of $v_2$ is $a^2$}{The variance of $v_2$ is $2a^2$}
+	\item \question{Consider the Auto Regressive process \boldmath{$y(t)$} generated as \boldmath{$y(t)=0.5y(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The covariance function $\gamma(\tau)$ of $y(t)$ is such that:}{$\gamma(2)=0.5\gamma(1)$}{$\gamma(2)=0$}{$\gamma(3)=0.5\gamma(2)$}{$\gamma(3)=0.5^3\gamma(0)$}
+	\item \question{Consider the Auto-Regressive process generated as \boldmath{$y(t)=0.7y(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The optimal one step ahead predictor from data is \boldmath{$\hat{y}(t|t-1)=b_1y(t-1)+b_2y(t-2)$} with:}{\boldmath{$b_1=0, b_2=0$}}{\boldmath{$b_1=0.7, b_2=0$}}{\boldmath{$b_1=0, b_2=0.7$}}{None of the other replies.}
+	\item \question{Consider the ARMA process generater as \boldmath{$y(t)=0.5y(t-1)+e(t)+0.5e(t-1)$}, where \boldmath{$e(t)$} is a white noise with expected value $m$ and variance $\lambda^2$. The covariance function $\gamma(\tau)$ of $y(t)$:}{Tends to zero when $\tau$ tends to $\infty$}{Tends to 1 when $\tau$ tends to $\infty$}{Oscillates between $+\lambda^2$ and $-\lambda^2$}{Does not depend upon $m$}
+	\item \question{Consider the Auto-Regressive process generated as \boldmath{$y(t)=0.7y(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The variance of the prediction error of the optimal three steps ahead predictor is:}{1.1}{1.25}{1.15}{None of the other replies.}
+	\pagebreak
+	\item \question{Consider two uncorrelated stationary process \boldmath{$v_1(t)$} and \boldmath{$v_2(t)$} with spectra \boldmath{$\Gamma_1(\omega)$} and $\Gamma_2(\omega)$ respectively. The spectrum \boldmath{$\Gamma(\omega)$} of the process \boldmath{$v(t)=2v_1(t)+3v_2(t)$} is given by:}{$\Gamma(\omega)=2\Gamma_1(\omega)+3\Gamma_2(\omega)$}{$\Gamma(\omega)=4\Gamma_1(\omega)+9\Gamma_2(\omega)$}{$\Gamma(\omega)=\Gamma_1(\omega)*\Gamma_2(\omega)$}{$\Gamma(\omega)=\Gamma_1(\omega)^2*\Gamma_2(\omega)^2$}
+	\item \question{Consider the process \boldmath{$y(t)=e(t)+ce(t-1)+bu(t-1)$} where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1.}{This is an ARX process (namely an Auto-Regressive process with eXogenous variable.}{If input $u(t)=1, \forall t$, then process $y(t)$ has zero expected value.}{Given sequences of measurements of $u(t)$ and $y(t)$, parameters $b$ and $c$ can be estimated with the LS (Least Squares) method.}{Given sequences of measurements of $u(t)$ and $y(t)$, parameters $b$ and $c$ can be estimated with the Yule Walker equations.}
+	\item \question{The process \boldmath{$y(t)=c_1e(t-1)+c_2e(t-2)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1, is a stationary random process if:}{\boldmath{$c_1=0,c_2=0$}}{\boldmath{$c_1=10,c_2=0.1$}}{\boldmath{$c_1=0.1,c_2=-0.1$}}{\boldmath{$c_1=-10,c_2=1$}}
+	\item \question{Consider the process \boldmath{$y(t)=ay(t-1)+e(t)+b_1u(t-1)+b_2u(t-2)$} where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. Parameter $a$ is such that $a \neq 0$ and $|a|<1$.}{This is an ARX process namely an Auto-Regressive process with eXogenous variable.}{The vector of model parameters is $\theta=a,b_1,b_2$.}{If $u(t)=1$ for all t then $y(t)$ has expected value $b_1+b_2$}{Given sequences of measurements of $u(t)$ and $y(t)$, parameters $a,b_1 and b_2$ can be estimated with the LS (Least Squares) method.}
+	\item \question{The system \boldmath{$y(t)=ay(t-1)+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance $\lambda^2$ and \textbf{a} is a real number, generates a stationary process if:}{$a=-2$}{$a=-0.2$}{$a=+0.7$}{$a=2$}
+	\item \question{Consider the ARMA process generated as \boldmath{$y(t)=0.5y(t-1)+e(t)+0.5e(t-1)$}, where $e(t)$ is a white noise with zero expected value and variance 1.}{There is a pole in $-0.5$}{There is a zero in $-0.5$}{The spectrum $\Gamma(\omega)$ of $y(t)$ is such that: $\Gamma(\omega)=1, \forall \omega$}
+	{The spectrum $\Gamma(\omega)$ of $y(t)$ is such that: $\Gamma(\omega)$ tends to zero when $\omega$ tends to $\infty$}
+	\pagebreak
+	\item \question{For a stationary process $y(t)$ with $E[y(t)y(t+1)]=1$, what is the value taken by $E[y(t)y(t-1)]$?}{-0.4}{0}{-1}{+1}
+	\item \question{The \textit{Maximum Likelihood} method}{can be used to estimate the parameters of an ARMAX model.}{is an iterative estimation method requiring a processing of all available data at each iteration.}{can be used to determine the optimal predictor of an ARMAX model.}{is a method to test the whiteness of a signal.}
+	\item \question{Consider a discrete time system with transfer function $W(z)=\rho \frac{z+c}{z+a}$, where $\rho, a, c$ are real parameters. In order to have an all-pass filter it is required that}{$\rho=1$}{$a=-c$}{$a=\frac{1}{c}$}{$a=\rho$}
+	\item \question{Conside the Moving-Average process as \boldmath{$y(t)=e(t)+0.5e(t-1)$} where $e(t)$ is a white noise with zero expected value and variance 1. The one step ahead optimal predictor is:}{$\hat{y}(t|t-1)=-0.25\hat{y}(t-1|t-2)+y(t-1)$}{$\hat{y}(t|t-1)=y(t-1)$}{$\hat{y}(t|t-1)=y(t)$}{None of the other replies.}
+	\item \question{Conside the Moving-Average process as \boldmath{$y(t)=e(t)+0.5e(t-1)$} where $e(t)$ is a white noise with zero expected value and variance 1}{The two steps ahead optimal predictor is $\hat{y}(t|t-2)=-0.125\hat{y}(t-1|t-2)+y(t-2)$}{The two steps ahead optimal predictor is $\hat{y}(t|t-2)=0$}{The variance of the prediction error of the two steps ahead optimal predictor is $1.25$}{The variance of the prediction error of the two steps ahead optimal predictor is $1$}
+	\item \question{Consider a random variable $v_1$ with zero expected value and variance 2. A second variable $v_2$ is given by $v_2=av1$ where \textbf{a} is a real non null parameter. The covariance coefficient of the two variables $v_1$ and $v_2$ is:}{0}{1}{a}{independent of the value of the non null parameter a}
+	\item \question{The \textit{periodogram}}{provides an approximate predictor of a stationary process}{provides an approximate estimate of the spectrum of a stationary process}{is an iterative procedure to find the covariance function of a stationary process}{is obtained by means of the Fourier transform formula}
+	\pagebreak
+	\item \question{Consider the process generated as \boldmath{$y(t)=1+e(t)$}, where \boldmath{$e(t)$} is a white noise with zero expected value and variance 1.}{The one step ahead optimal predictor $\hat{y}(t|t-1)$ is equal to 0.}{The one step ahead optimal predictor $\hat{y}(t|t-1)$ is equal to 1.}{The two steps ahead optimal predictor $\hat{y}(t|t-2)$ is equal to 2.}{The two steps ahead optimal predictor $\hat{y}(t|t-2)$ is equal to 1.}
+	\item \question{Consider the stochastic process as \boldmath{$y(t)=e(t)+0.5e(t-1)-0.5e(t-2)$} where $e(t)$ is a white noise with zero expected value 1 and variance 1.}{The expected value of the process is 0.}{The expected value of the process is 1.}{The variance of the process is 3/2.}{The variance of the process is 5/4.}
+	\item \question{For a given time series, it turns out that the estimated Partial Covariance function $PARCOV(\tau)$ becomes null for $\tau>5$. Which is the appropriate model to fit data?}{$MA(5)$}{$MA(4)$}{$AR(5)$}{$ARMA(3,3)$}
+\end{enumerate}
+\pagebreak
+\subsection{Solutions}
+\begin{enumerate}[label=\textbf{\arabic*})]
+\item T F T F
+\item F T T T
+\item F T T F
+\item T F F F
+\item T F T F
+\item T F F T
+\item F F F F
+\item F F T F
+\item T F F T
+\item F F T T
+\item F F F T
+\item F T T F
+\item F T T F
+\item T F T F
+\item T F F F
+\item F T F T
+\item T F T T
+\item F T F F
+\item T F F T
+\item F F F T
+\item F T F F
+\item F F F F
+\item T T T T
+\item T T F T
+\item F T T F
+\item F T F F
+\item F F F T
+\item T T F F
+\item F F T F
+\item F F F F
+\item F T T F
+\item F T F T
+\item F T F T
+\item F T F T
+\item F T T F
+\item F F T F
+\end{enumerate}
 \end{document}
