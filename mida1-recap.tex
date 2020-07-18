@@ -18,6 +18,7 @@
 \usepackage{enumitem}
 \usetikzlibrary{shadows}
 \usepackage{listings}
+\usepackage{bm}
 \usepackage{lmodern,textcomp}
 %\usepackage[english]{babel}
 
@@ -43,6 +44,7 @@
 \\ \large \textbf{Professor}: Sergio Bittanti  \linebreak
 \\ \small \textbf{Authors}: Simone Staffa \linebreak
 \\ \small Based on the notes provided by Giulio Alizoni
+\\ \small Integrated with PoliMi Data Scientists notes
 \\ \small Appendix questions provided by Moreno and @idividebyzero
 
 \vspace{5em}
@@ -91,9 +93,10 @@ A random process (also called \textbf{stochastic process}) is a sequence of rand
 \begin{itemize}
 	\item \textbf{Mean} is constant ($m$)
 	\item \textbf{Variance} is constant ($\lambda^2$)
-	\item $\gamma(t_1,t_2) = E[(v(t_1)-m)(v(t_2)-m)]$ the \textbf{covariance function}, it depends only on $\tau = t_2 - t_1$ and can therefore be indicated with $\gamma(\tau)$. The variance can be also defined as $\gamma(0) = \lambda^2$
+	\item $\gamma(t_1,t_2) = E[(v(t_1)-m)(v(t_2)-m)]$ the \textbf{covariance function}, it depends only on $\tau = t_2 - t_1$ and can therefore be indicated with $\gamma(\tau)$. \\ The variance can be also defined as $\gamma(0) = \lambda^2$
 \end{itemize}
-A \textbf{White Noise (WN)} is a SSP with $\gamma(\tau) = 0$ $\forall \tau \neq 0$. A WN is an unpredictable signal meaning that there is NO CORRELATION between $\eta(t_1)$ and $\eta(t_2)$. Usually a WN is defined as $\eta(t) \sim WN(0,\lambda^2)$. Having them with zero-mean is not mandatory.
+A \textbf{White Noise (WN)} is a SSP with $\gamma(\tau) = 0$ $\forall \tau \neq 0$. A WN is an unpredictable signal meaning that there is NO CORRELATION between $\eta(t_1)$ and $\eta(t_2)$. Usually a WN is defined as $\eta(t) \sim WN(0,\lambda^2)$. Having them with zero-mean is not mandatory. \\
+The fact that the covariance function is zero everywhere except for the origin means that the notion of the past is not informative to know the future (\textbf{whiteness property)}.
 \section{Familes of SSP}
 \subsection{Moving Average Process (MA)}
 \center 
@@ -118,6 +121,15 @@ Where $n$ is the order of the process, $\eta(t) \sim WN(0,\lambda^2)$. \\
 	All poles are then in the origin of the complex plane, while the zeroes depends on the values of the coefficient. 
 \end{itemize}
 \pagebreak
+\uline{Example with MA(n):}
+\begin{itemize}
+	\item $\gamma(0)=(c_0^2+c_1^2+...+c_n^2)\lambda^2$
+	\item $\gamma(1)=(c_0c_1+c_1c_2+...+c_{n-1}c_n)\lambda^2$
+	\item $\gamma(2)=(c_0c_2+c_1c_3+...+c_{n-2}c_n)\lambda^2$
+	\item ...
+	\item $\gamma(n)=(c_0c_n)\lambda^2$
+	\item $\gamma(k)=0, \forall k > n$
+\end{itemize}
 It exists also the $MA(\infty)$ representation:
 \center $v(t) = c_0\eta(t)+c_1\eta(t-1)+...+c_i\eta(t-i)+... + infinite sum$. 
 \\ \raggedright \vspace{0.5em}
@@ -142,7 +154,8 @@ Where $n$ is the order of the process, $\eta(t) \sim WN(0,\lambda^2)$. \\
       			\frac{1}{1-a^2} \lambda^2 & \tau=0\\
     \end{cases}       
 \end{equation}
-	well defined if $|a|<1$ (Yule Walker Equations)
+	well defined if $|a|<1$ \\ 
+	\textbf{(2)}. \textit{(\uline{Yule Walker Equations}, can be used to evaluate the covariance and analyze Auto-Regressive processes.)}
 	\item \textbf{Transfer function}: $W(z)=\frac{z^n}{z^n-a_1z^{n-1}-...-a_n}$. \\
 	\vspace{0.5em}
 	Note that poles' position depends on the value $a_1, ..., a_n$. If all poles are inside the unit circle, then the system is \textbf{stable}.
@@ -269,6 +282,13 @@ The new predictor formula becomes:
 \center 
 $\hat{y}(t|t-1)=\frac{C(z)-A(z)}{C(z)}y(t)+\frac{B(z)}{C(z)}u(t-1)$
 \\ \raggedright
+\subsection{Notorious Predictors}
+\begin{itemize}
+	\item \bm{$AR(1)$}: $\hat{v}(t+r|t)=a^rv(t)$  
+	\item \bm{$MA(n)$}: $\hat{v}(t+\bm{n+1}|t)=0$ 
+	\item \bm{$ARMA(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t)$
+	\item \bm{$ARMAX(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t) + \frac{B(z)}{C(z)}u(t-1)$
+\end{itemize}
 \section{Prediction Error minimization methods}
 \textbf{Identification} consists in estimating a model from data. We can define the prediction error as before: $\epsilon(t)=v(t)-\hat{v}(t+r|t)$. We want to minimize this prediction error, and representing it as a WN (fully unpredictable). \\
 Steps:
