@@ -285,7 +285,7 @@ $\hat{y}(t|t-1)=\frac{C(z)-A(z)}{C(z)}y(t)+\frac{B(z)}{C(z)}u(t-1)$
 \subsection{Notorious Predictors}
 \begin{itemize}
 	\item \bm{$AR(1)$}: $\hat{v}(t+r|t)=a^rv(t)$  
-	\item \bm{$MA(n)$}: $\hat{v}(t+\bm{n+1}|t)=0$ 
+	\item \bm{$MA(n)$}: $\hat{v}(t+\bm{k}|t)=0, \forall k > n$ 
 	\item \bm{$ARMA(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t)$
 	\item \bm{$ARMAX(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t) + \frac{B(z)}{C(z)}u(t-1)$
 \end{itemize}
