@@ -93,7 +93,7 @@ A random process (also called \textbf{stochastic process}) is a sequence of rand
 	\item \textbf{Variance} is constant ($\lambda^2$)
 	\item $\gamma(t_1,t_2) = E[(v(t_1)-m)(v(t_2)-m)]$ the \textbf{covariance function}, it depends only on $\tau = t_2 - t_1$ and can therefore be indicated with $\gamma(\tau)$. The variance can be also defined as $\gamma(0) = \lambda^2$
 \end{itemize}
-A \textbf{White Noise (WN)} is a SSP with $\gamma(0) = 0$ $\forall \tau \neq 0$. A WN is an unpredictable signal meaning that there is NO CORRELATION between $\eta(t_1)$ and $\eta(t_2)$. Usually a WN is defined as $\eta(t) \sim WN(0,\lambda^2)$. Having them with zero-mean is not mandatory.
+A \textbf{White Noise (WN)} is a SSP with $\gamma(\tau) = 0$ $\forall \tau \neq 0$. A WN is an unpredictable signal meaning that there is NO CORRELATION between $\eta(t_1)$ and $\eta(t_2)$. Usually a WN is defined as $\eta(t) \sim WN(0,\lambda^2)$. Having them with zero-mean is not mandatory.
 \section{Familes of SSP}
 \subsection{Moving Average Process (MA)}
 \center 
@@ -564,7 +564,7 @@ Anderson Whiteness Test allows you to conclude that the prediction error is cert
 	{The value taken by $E[y(t)y(t-1)]$ is $c_0c_1+c_1c_2$}
 	{The value taken by $E[y(t)y(t-2)]$ is $c_0c_1+c_1c_2+c_0c_2$}
 	{The value taken by $E[y(t)y(t-3)]$ is $0$}
-	{The value taken by $E[y(t)y(t-3)]$ is $c0_c2$}
+	{The value taken by $E[y(t)y(t-3)]$ is $c_0c_2$}
 	\item \question{Consider the system with input $u(t)$, output $y(t)$ and transfer function \boldmath{$W(z)=\frac{z+1}{z+0.5}$}. If $u(t)$ is white noise, then the spectrum of the output is:}{Null at $\omega=0$}{Null at $\omega=\pi$}{Null at $\omega=-\pi$}{Null at $\omega=3\pi$}
 	\item 
 	\question{Consider the process \boldmath{$y(t)=\frac{C(z)}{A(Z)}e(t)$} where \boldmath{$C(z)=1+2z^{-1}, A(z)=1+\frac{1}{2}z^{-1}$} and \boldmath{$e(t)$} is a white noise with zero expected value and variance 1. The process covariance is denoted by $\gamma(\tau)$.}{$\frac{C(z)}{A(z)}$ is in canonical representation}{$\gamma(0)=4$}{$\gamma(1)=0$}{$\gamma(2)=0.25$}
