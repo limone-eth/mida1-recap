@@ -289,6 +289,10 @@ $\hat{y}(t|t-1)=\frac{C(z)-A(z)}{C(z)}y(t)+\frac{B(z)}{C(z)}u(t-1)$
 	\item \bm{$ARMA(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t)$
 	\item \bm{$ARMAX(n_a,n_b)$}: $\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t) + \frac{B(z)}{C(z)}u(t-1)$
 \end{itemize}
+\subsubsection{Prediction Error Variance}
+\begin{itemize}
+	\item \bm{$AR(1)$}: $\epsilon(t)=(1^2+a^2+...+a^{2(r-1)})\lambda^2$ for a generic prediction horizon $r$
+\end{itemize}
 \section{Prediction Error minimization methods}
 \textbf{Identification} consists in estimating a model from data. We can define the prediction error as before: $\epsilon(t)=v(t)-\hat{v}(t+r|t)$. We want to minimize this prediction error, and representing it as a WN (fully unpredictable). \\
 Steps:
@@ -327,7 +331,6 @@ $R(N) = \begin{bmatrix}
 \end{bmatrix}$ \\ \vspace{0.3em}
 \textit{Note that the two elements in the main diagonal are respectively the sample variance of $y$ and the sample variance of $u$}. \\
 \raggedright
-\pagebreak
 Bringing $N \rightarrow \infty$:
 $\bar{R}= \begin{bmatrix}
 \bar{R}_{yy} & \bar{R}_{yu}\\
@@ -664,7 +667,7 @@ Anderson Whiteness Test allows you to conclude that the prediction error is cert
 \item F F T F
 \item F F F T
 \item F T T F
-\item F T F T
+\item F F F F
 \item F T F T
 \item F T F T
 \item F T T F
