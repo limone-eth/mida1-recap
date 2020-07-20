@@ -207,19 +207,28 @@ By the original definition, the spectrum of a stationary process is the \textit{
   \center
  $\gamma(\tau)=\int_{-\pi}^{+\pi} \Gamma(\omega)e^{j \omega \tau} d\omega$
  \\
+  \vspace{0.5em}
+\raggedright
+Assuming to have a stable system $y(t)$, then:
+\begin{itemize}
+	\item $\Gamma_{yy}(z_0)=0$ where $z_0$ is a zero of $W(z)$
+	\item $\Gamma_{yy}(p_0)=\infty$ where $p_0$ is a pole of $W(z)$
+	\end{itemize}
  \vspace{0.5em}
- \raggedright
-  The spectrum of a white noise is constant and equal to its variance.
- Given  $\eta(t) \sim WN(0,\lambda^2)$
+ \raggedright 
+  The \textbf{spectrum of a white noise is constant} and equal to its variance. \\
+ Given  $\eta(t) \sim WN(0,\lambda^2)$:
  \center 
 $\Gamma_\eta(\omega) = \gamma(0) = Var[\eta(t)] = \lambda^2$
 \\
 \raggedright
+
 \subsection{Fundamental Theorem of Spectral Analysis}
 The spectrum of a process $y$ that takes in input a process $u$ is:
 \center 
-$\Gamma_{yy}(\omega)=|W(e^{j \omega)}|^2*\Gamma_{uu}(\omega)$
+$\Gamma_{yy}(\omega)=|W(e^{j \omega)}|^2*\Gamma_{uu}(\omega)=W(e^{j\omega})*W(e^{-j\omega})*\Gamma_{uu}(\omega)$
 \\
+\subsubsection{Spectrum to evalut}
  \begin{figure}[h!]
  \hfill \includegraphics[width=200pt]{images/spectrum-theorem.png}\hspace*{\fill}
   \label{fig:spectrum-theorem}
@@ -228,7 +237,6 @@ $\Gamma_{yy}(\omega)=|W(e^{j \omega)}|^2*\Gamma_{uu}(\omega)$
 \section{Canonical Representation of a Stationary Process}
 To solve the multiplicity of ARMA models for a stationary process, in which there are many different ARMA representations for the same process, one can use the canonical representation. \\
 From a signal, one can build the spectrum (or equivalently the covariance function). Once we have the spectrum, we can derive the canonical spectral factor to solve the prediction problem. Indeed, given a rational process, there is one and only one ARMA representation which is canonical. \\
-\pagebreak
 \textbf{Properties of Canonical Representation} (referring to the transfer function $W(z)$):
 \begin{itemize}
 	\item Numerator and denominator have the same degree
@@ -262,6 +270,7 @@ There is a shortcut that can be used with ARMA process, in general:
 \center
 	$\hat{v}(t|t-1)=\frac{C(z)-A(z)}{C(z)}v(t)$, with $\hat{W}(z)=\frac{C(z)}{A(z)}$
 \\ \raggedright
+\pagebreak
 \subsection{Prediction with eXogenous Variables}
 An exogenous variable is another input variable $u(t)$ for the system which differently from the WN is a \uline{deterministic variable}.
 \subsubsection{ARX Model}
@@ -304,6 +313,7 @@ Steps:
 		$J(\theta)=\frac{1}{N}\sum_{t=1}^{N}\epsilon_\theta(t)^2$ mean squared error \\
 		$J(\theta)=\frac{1}{N}\sum_{t=1}^{N}|\epsilon_\theta(t)|$ mean absolute error \\
 	\raggedright
+	
 	\item \textbf{Optimization}: model parameters are obtained with $\theta=minJ(\theta) \rightarrow \frac{dJ(\theta)}{d\theta} = 0$
 	\item \textbf{Validation}: final analysis of the results to evaluate if they satisfy our requirements
 \end{enumerate}
@@ -409,7 +419,6 @@ After computing $\hat{\theta}_N$, we have $J_N(\hat{\theta}_N)^{(n)}$ for a mode
  \hfill \includegraphics[width=300pt]{images/summary-criterion.png}\hspace*{\fill}
   \label{fig:summary-criterion}
 \end{figure}
-\pagebreak
 \section{Durbin-Levinson algorithm}
 A recursive algorithm to estimate the parameters of an $AR(n+1)$ starting from an $AR(n)$ model. Using this algorithm we avoid to invert several matrices, which is an expensive procedure. \\
 Procedure for $AR(n) \rightarrow AR(n+1)$:
